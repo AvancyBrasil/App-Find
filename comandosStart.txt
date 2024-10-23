@@ -1,0 +1,26 @@
+npm install
+npm install @react-navigation/native
+npm install react-native-screens react-native-safe-area-context
+npm install @react-navigation/stack
+npm install react-native-gesture-handler
+npm install @react-navigation/bottom-tabs
+npm install react-native-vector-icons
+npm install react-native-responsive-screen
+npm install redux react-redux @reduxjs/toolkit
+expo install expo-image-picker
+npm install axios
+npm install @react-native-community/geolocation
+npm install --save react-native-permissions
+npm install --save react-native-permissions
+expo install expo-location
+npm install @react-native-picker/picker
+npx expo start
+
+
+
+
+
+
+
+execute os comando acima e depois mude o ip do arquivo api.js dentro de service e na variavel ip dentro da tela home 
+obs: coloque o ip da sua maquina, para saber o ip insira esse codigo ipconfig
