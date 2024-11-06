@@ -3,9 +3,9 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import { View, Text, TextInput, TouchableOpacity, Image, ScrollView, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
-import { AntDesign } from '@expo/vector-icons';
-import styles from './styles';
 import api from '../../services/api';
+import styles from './styles';
+import Bottomnav from '../../routes/bootomnavbar';
 
 export default function PerfilCliente() {
   const route = useRoute();
@@ -22,8 +22,6 @@ export default function PerfilCliente() {
     const fetchCliente = async () => {
       try {
         const response = await api.get(`/usuarios/?email=${email}`);
-        console.log('Resposta da API:', response.data);
-
         if (Array.isArray(response.data) && response.data.length > 0) {
           setUsuario(response.data[0]);
         } else {
@@ -60,16 +58,14 @@ export default function PerfilCliente() {
 
   useEffect(() => {
     if (usuario) {
-      console.log('Dados do usuario no useEffect:', usuario);
-      const fotoPerfilUrl = baseURL + usuario.fotoPerfil; // Concatenando o caminho base com o nome do arquivo
-      console.log('URL da fotoPerfil:', fotoPerfilUrl); // Exibe a URI da imagem no console
+      const fotoPerfilUrl = baseURL + usuario.fotoPerfil;
       setFormData({
         id: usuario.id,
         email: usuario.email,
         senha: usuario.senha,
         nome: usuario.nome,
         cpf: usuario.cpf,
-        nascimento: usuario.dataNasc,
+        nascimento: usuario.dataNasc ? usuario.dataNasc.slice(0, 10) : '',
         telefone: usuario.telefone,
         cep: usuario.cep,
         logradouro: usuario.logradouro,
@@ -85,7 +81,6 @@ export default function PerfilCliente() {
   };
 
   const handleInputChange = (field, value) => {
-    console.log(`Atualizando ${field} com valor ${value}`); // Verifique a atualização do estado
     setFormData(prevData => ({ ...prevData, [field]: value }));
   };
 
@@ -105,24 +100,24 @@ export default function PerfilCliente() {
   };
 
   const handleDeleteAccount = () => {
-    const { id, ...data } = formData;
     Alert.alert(
       "Excluir Conta",
       "Tem certeza de que deseja excluir sua conta?",
       [
         { text: "Cancelar", style: "cancel" },
         { text: "Excluir", onPress: async () => {
-            await api.delete(`/usuarios/${id}`, data);
-            Alert.alert("Conta excluída com sucesso");
-            navigation.navigate('Login');
+            try {
+              await api.delete(`/usuarios/${id}`);
+              Alert.alert("Conta excluída com sucesso");
+              navigation.navigate('Login');
+            } catch (error) {
+              Alert.alert("Erro", "Não foi possível excluir a conta.");
+              console.error("Erro ao excluir conta:", error);
+            }
           }
         }
       ]
     );
-  };
-
-  const handleLogoutPress = async () => {
-    navigation.navigate('Login');
   };
 
   const pickImage = async () => {
@@ -141,12 +136,8 @@ export default function PerfilCliente() {
 
     if (!result.canceled) {
       const imageUri = result.assets[0].uri;
-      console.log('Imagem selecionada:', imageUri);
 
-      if (!imageUri) {
-        console.log('URI da imagem está vazia ou inválida');
-        return;
-      }
+      if (!imageUri) return;
 
       try {
         const formData = new FormData();
@@ -156,8 +147,6 @@ export default function PerfilCliente() {
           name: 'fotoPerfil.jpg',
         });
 
-        console.log('FormData criado:', formData);
-
         const response = await api.put(`/usuarios/${id}`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
@@ -166,16 +155,14 @@ export default function PerfilCliente() {
 
         if (response.status === 200) {
           setFormData(prevData => ({ ...prevData, fotoPerfil: imageUri }));
-          console.log('Sucesso', 'Imagem de perfil atualizada!');
+          setSelectedImage(imageUri); // Atualiza a imagem selecionada
         } else {
-          console.log('Erro', 'Não foi possível atualizar a imagem.');
+          Alert.alert('Erro', 'Não foi possível atualizar a imagem.');
         }
       } catch (error) {
         Alert.alert('Erro', 'Não foi possível atualizar a imagem.');
         console.error('Erro ao atualizar imagem:', error);
       }
-    } else {
-      console.log("Seleção de imagem cancelada");
     }
   };
 
@@ -190,216 +177,72 @@ export default function PerfilCliente() {
   }
 
   return (
-    
     <ScrollView style={styles.background}>
-      
       <View style={styles.headerContainer}>
-      <TouchableOpacity style ={styles.backButton} onPress={navigation.goBack}> 
-          <AntDesign  name="leftcircle" size={35} color="white" /> 
-          </TouchableOpacity>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Home')}>
-          <Image
-            source={require('../../assets/logo.png')}
-            style={styles.logo}
-            alt="Sua Empresa"
-          />
-        </TouchableOpacity>
-
-        <View style={styles.logoutContainer}>
-          <TouchableOpacity style={styles.logoutButton} onPress={handleLogoutPress}>
-            <Text style={styles.logoutText}>Sair</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      <View style={styles.containerPerfil}>
-        <Text style={styles.titleText}>Seu Perfil</Text>
         <TouchableOpacity onPress={pickImage}>
           <Image
             source={selectedImage ? { uri: selectedImage } : { uri: formData.fotoPerfil }} 
             style={styles.foto}
             alt="Sua foto"
           />
+          <Ionicons name="pencil" size={20} color="#FF8500" style={styles.editIcon} />
         </TouchableOpacity>
-        <Text style={styles.nameText}>{usuario.nome}</Text>
-        <Text style={styles.bioText}>{usuario.cidade}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.nameText}>{usuario.nome}</Text>
+        </View>
       </View>
 
-      {/* Conta Section */}
       <View style={styles.containerInfo}>
         <View style={styles.infoPessoal}>
-          <Text style={styles.textInfoCont}>Conta</Text>
+          <Text style={styles.textInfoCont}>Dados Pessoais</Text>
           <TouchableOpacity onPress={handleEditToggle}>
             <Text style={styles.textInfoCont}>Editar</Text>
           </TouchableOpacity>
         </View>
 
         <View style={styles.containerCard}>
-          <View style={[styles.cardInfo, styles.firstCard]}>
-            <Text style={styles.textInfo}>Email:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.email} 
-                onChangeText={(text) => handleInputChange('email', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.email}</Text>
-            )}
-          </View>
-          <View style={[styles.cardInfo, styles.lastCard]}>
-            <Text style={styles.textInfo}>Senha:</Text>
-            {isEditing ? (
-              <View style={styles.inputArea}>
+          {['email', 'senha', 'nome', 'cpf', 'nascimento', 'telefone', 'cep', 'logradouro', 'bairro', 'cidade'].map((field, index) => (
+            <View key={field} style={[styles.cardInfo, index === 0 ? styles.firstCard : (index === 8 ? styles.lastCard : null)]}>
+              <Text style={styles.textInfo}>{field.charAt(0).toUpperCase() + field.slice(1)}:</Text>
+              {isEditing ? (
                 <TextInput
                   style={styles.textInput}
-                  value={formData.senha}
-                  onChangeText={(text) => handleInputChange('senha', text)}
-                  secureTextEntry={hidePass}
+                  value={formData[field]}
+                  onChangeText={(text) => handleInputChange(field, text)}
+                  secureTextEntry={field === 'senha' && hidePass}
                 />
-                <TouchableOpacity style={styles.icon} onPress={() => setHidePass(!hidePass)}>
-                  {hidePass ? (
-                    <Ionicons name="eye-off" color="#FFFFFF" size={25} />
-                  ) : (
-                    <Ionicons name="eye" color="#FFFFFF" size={25} />
-                  )}
-                </TouchableOpacity>
-              </View>
-            ) : (
-              <Text style={styles.textInfo2}>{formData.senha}</Text>
-            )}
-          </View>
+              ) : (
+                <Text style={styles.textInfo2}>{field === 'senha' && !isEditing ? '********' : formData[field]}</Text>
+              )}
+            </View>
+          ))}
         </View>
       </View>
 
-      {/* Perfil Section */}
-      <View style={styles.containerInfo}>
-        <View style={styles.infoPessoal}>
-          <Text style={styles.textInfoCont}>Perfil</Text>
-        </View>
-
-        <View style={styles.containerCard}>
-          <View style={[styles.cardInfo, styles.firstCard]}>
-            <Text style={styles.textInfo}>Nome:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.nome}
-                onChangeText={(text) => handleInputChange('nome', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.nome}</Text>
-            )}
-          </View>
-          <View style={[styles.cardInfo, styles.lastCard]}>
-            <Text style={styles.textInfo}>CPF:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.cpf}
-                onChangeText={(text) => handleInputChange('cpf', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.cpf}</Text>
-            )}
-          </View>
-        </View>
-        <View style={styles.containerCard}>
-          <View style={[styles.cardInfo, styles.firstCard]}>
-            <Text style={styles.textInfo}>Data de Nascimento:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.nascimento}
-                onChangeText={(text) => handleInputChange('nascimento', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.nascimento}</Text>
-            )}
-          </View>
-          <View style={[styles.cardInfo, styles.lastCard]}>
-            <Text style={styles.textInfo}>Telefone:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.telefone}
-                onChangeText={(text) => handleInputChange('telefone', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.telefone}</Text>
-            )}
-          </View>
-        </View>
-        <View style={styles.containerCard}>
-          <View style={[styles.cardInfo, styles.firstCard]}>
-            <Text style={styles.textInfo}>CEP:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.cep}
-                onChangeText={(text) => handleInputChange('cep', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.cep}</Text>
-            )}
-          </View>
-          <View style={[styles.cardInfo, styles.lastCard]}>
-            <Text style={styles.textInfo}>Logradouro:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.logradouro}
-                onChangeText={(text) => handleInputChange('logradouro', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.logradouro}</Text>
-            )}
-          </View>
-        </View>
-        <View style={styles.containerCard}>
-          <View style={[styles.cardInfo, styles.firstCard]}>
-            <Text style={styles.textInfo}>Bairro:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.bairro}
-                onChangeText={(text) => handleInputChange('bairro', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.bairro}</Text>
-            )}
-          </View>
-          <View style={[styles.cardInfo, styles.lastCard]}>
-            <Text style={styles.textInfo}>Cidade:</Text>
-            {isEditing ? (
-              <TextInput
-                style={styles.textInput}
-                value={formData.cidade}
-                onChangeText={(text) => handleInputChange('cidade', text)}
-              />
-            ) : (
-              <Text style={styles.textInfo2}>{formData.cidade}</Text>
-            )}
-          </View>
-        </View>
-      </View>
-
-      {/* Ação de Confirmação e Cancelamento */}
-      <View style={styles.actionContainer}>
-        {isEditing && (
-          <>
-            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
-              <Text style={styles.confirmText}>Confirmar</Text>
-            </TouchableOpacity>
+      {isEditing && (
+        <>
+          <View style={styles.containerBotoes}>
             <TouchableOpacity style={styles.cancelButton} onPress={handleCancel}>
               <Text style={styles.cancelText}>Cancelar</Text>
             </TouchableOpacity>
-          </>
-        )}
-        <TouchableOpacity style={styles.deleteButton} onPress={handleDeleteAccount}>
-          <Text style={styles.deleteText}>Excluir Conta</Text>
+            <TouchableOpacity style={styles.confirmButton} onPress={handleConfirm}>
+              <Text style={styles.confirmText}>Confirmar</Text>
+            </TouchableOpacity>
+          </View>
+          <TouchableOpacity onPress={handleDeleteAccount}>
+            <Text style={styles.textExcluirConta}>Excluir Conta</Text>
+          </TouchableOpacity>
+        </>
+      )}
+
+      {/* O botão de sair é exibido normalmente, mas fica invisível se estiver editando */}
+      {!isEditing && (
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.textSairConta}>Sair da Conta</Text>
         </TouchableOpacity>
-      </View>
+      )}
+
+      <View style={{ height: 160 }} />
     </ScrollView>
   );
 }

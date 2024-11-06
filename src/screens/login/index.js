@@ -14,28 +14,31 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const authResponse = await api.post('/login/usuarios', { email, senha });
+      const authResponse = await api.post('/login/usuarios', { email, senha, });
 
       if (authResponse.status === 200) {
         const { token } = authResponse.data;
-
+      
         const userResponse = await api.get(`/usuarios/?email=${email}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-
+      
         if (userResponse.status === 200) {
-          const userData= userResponse.data;
-
+          const userData = userResponse.data;
+      
           dispatch(setUserData(userData));
-
           console.log('Dados a serem passados:', userData);
-        navigation.navigate('Home');
+          navigation.navigate('Home');
+        }
+      } 
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
+          Alert.alert('Erro de Login', 'Conta inativa. Entre em contato com o suporte.');
+        } else {
+          Alert.alert('Erro de Login', 'Email ou senha incorretos. Por favor, tente novamente.');
         }
       }
-    } catch (error) {
-      Alert.alert('Erro de Login', 'Email ou senha incorretos. Por favor, tente novamente.');
     }
-  };
   return (
     <SafeAreaView style={styles.container}>
       <KeyboardAvoidingView

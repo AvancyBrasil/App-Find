@@ -1,107 +1,215 @@
-import { StyleSheet } from "react-native";
-import { heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F9F9F9',
+    padding: 15,
+  },
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingTop: hp('4%'), // Espaço adicional para descolar a logo e a engrenagem do topo
-    backgroundColor: '#050521', // Azul de fundo
-  },
-  logo: {
-    width: 125,
-    height: 75,
-    resizeMode: 'contain',
-  },
-  iconButton: {
-    marginLeft: '50%',
-  },
-  searchContainer: {
-    flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: 10,
     paddingVertical: 10,
-    backgroundColor: '#050521',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E0E0E0',
   },
-  searchBar: {
+  arrowButton: {
+    padding: 5,
+  },
+  logradouroText: {
+    color: '#333',
+    fontSize: 16,
+    textAlign: 'center',
     flex: 1,
-    height: 35,
-    backgroundColor: '#404652',
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    marginRight: 10,
-    color: '#d9d9d9',
+    fontWeight: '500',
   },
-  listContainer: {
-    backgroundColor: '#050521', // Cor de fundo azul
-    padding: 10,
+  arrowPlaceholder: {
+    width: 24,
   },
-  card: {
-    backgroundColor: '#404652',
+  detailsContainer: {
+    marginTop: 10,
+    padding: 8, // Mantido o padding para uma boa estética
+    backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    margin: 5,
-    width: '48%', // Para dois cards por linha, aproximadamente metade da largura
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.05,
+    shadowRadius: 3,
+    elevation: 2,
   },
-  cardImage: {
-    width: '100%',
-    height: 150,
-    resizeMode: 'cover',
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+  title: {
+    fontSize: 18,
+    color: '#333',
+    marginBottom: 5,
+    fontWeight: 'bold',
   },
-  cardTitle: {
-    fontSize: 10,
-    fontWeight: 'regular',
-    color: '#FFFFFF',
-    marginVertical: 5,
+  infoText: {
+    fontSize: 14,
+    color: '#555',
+    marginVertical: 2,
   },
-  storeInfo: {
+  orangeText: {
+    color: '#FF5722',
+    fontWeight: 'bold',
+  },
+  sectionTitle: {
+    fontSize: 20,
+    color: '#333',
+    marginVertical: 10,
+    fontWeight: 'bold',
+  },
+  lojaProximaContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    margin: 6,
+    alignItems: 'center', // Mantém os itens alinhados verticalmente
+    padding: 10, // Mantém o padding, mas verifique se é necessário
   },
-  storeImageLoja: {
-    width: 20,
-    height: 20,
-    borderRadius: 20, // Isso torna a imagem circular
+  lojaProximaImagem: {
+    width: 50,
+    height: 50,
+    borderRadius: 40,
     marginRight: 10,
   },
-  selectContainer: {
-    // flexDirection: 'row',
-    // alignItems: 'center',
-    // marginHorizontal: 2, // Margem fixa
-    // marginVertical: 1, // Margem fixa
-    // backgroundColor: '#050521', // Cor de fundo do contêiner
-    // borderRadius: 5,
-    // borderWidth: 1,
-    // borderColor: '#FF5800', // Cor da borda
-
+  lojaProximaInfo: {
+    flex: 1,
+    justifyContent: 'center', // Para centralizar verticalmente os textos
+  },
+  lojaProximaNome: {
+    fontSize: 20,
+    color: '#333',
+    fontWeight: '500',
+    marginBottom: 0, // Removido para evitar espaço extra
+  },
+  lojaProximaDistancia: {
+    fontSize: 16,
+    color: '#777',
+    marginBottom: 0, // Removido para evitar espaço extra
+  },
+  lojaAvaliacaoContainer: {
+    marginHorizontal: 10,
+    width: 140,
+    height: 180, // Defina uma altura fixa para evitar esticar demais
+    borderRadius: 10,
+    elevation: 2,
+    overflow: 'hidden', // Para garantir que os conteúdos não extrapolem o card
+    justifyContent: 'flex-start', // Para garantir que o conteúdo comece do topo
+  },
+  avaliacaoContainer: {
+    position: 'absolute',
+    top: 8,
+    right: 8,
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    zIndex: 10,
+  },
+  lojaAvaliacaoImagem: {
+    width: '100%',
+    height: 100, // Altura da imagem reduzida para evitar esticar demais
+    borderRadius: 10,
+    marginBottom: 5, // Ajuste conforme necessário
+},
+lojaAvaliacaoNome: {
+    fontSize: 16,
+    color: '#000',
+    fontWeight: '500',
+    marginBottom: 2,
+},
+lojaAvaliacaoCategoria: {
+    fontSize: 14,
+    color: '#000',
+    marginBottom: 2,
+},
+lojaAvaliacaoDistancia: {
+    fontSize: 12,
+    color: '#000',
+},
+
+
+  cardPostagemContainer: {
+    marginVertical: 15,
+    borderRadius: 15,
+    backgroundColor: '#050521', // Fundo mais escuro para contraste
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOpacity: 0.5,
+    shadowRadius: 15,
+    shadowOffset: { width: 0, height: 10 },
+    overflow: 'hidden',
+  },
+  postagemHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+    backgroundColor: '#050521', // Fundo contrastante para o cabeçalho
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+  },
+  postagemLojistaImagem: {
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    marginRight: 10,
+  },
+  postagemHeaderInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
+  postagemLojistaNome: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  postagemDistancia: {
+    fontSize: 14,
+    color: '#bbb',
+    marginLeft: 10,
+  },
+  postagemImagemProduto: {
+    width: '100%',
+    height: 250,
+  },
+  postagemInfo: {
+    padding: 15,
     backgroundColor: '#050521',
   },
-  
-  picker: {
-    // flex: 1,
-    // height: 40, // Altura fixa
-    // backgroundColor: 'gray',
-    // color: '#00000', // Cor do texto
-    // fontSize: 16, // Tamanho da fonte fixo
-    flex: 1,
-    height: 35,
-    backgroundColor: '#404652',
-    borderRadius: 0,
-    paddingHorizontal: 20,
-    marginRight: 0,
-    color: '#d9d9d9',
+  postagemActions: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 10,
   },
-  
+  postagemIcon: {
+    fontSize: 16,
+    color: '#FF6347', // Cor moderna e chamativa
+    paddingVertical: 5,
+    paddingHorizontal: 12,
+    backgroundColor: '#222', // Fundo mais escuro para os ícones
+    borderRadius: 20,
+  },
+  postagemCategoria: {
+    fontSize: 14,
+    color: '#ccc',
+    marginTop: 5,
+  },
+  postagemPreco: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FF5722',
+    marginTop: 5,
+  },
+  postagemEspecificacao: {
+    fontSize: 14,
+    color: '#aaa',
+    marginTop: 5,
+  },
 });
 
 export default styles;

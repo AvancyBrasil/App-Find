@@ -23,4 +23,4 @@ npx expo start
 
 
 execute os comando acima e depois mude o ip do arquivo api.js dentro de service e na variavel ip dentro da tela home 
-obs: coloque o ip da sua maquina, para saber o ip insira esse codigo ipconfig
+obs: coloque o ip da sua maquina, para saber o ip insira esse codigo ipconfig   
