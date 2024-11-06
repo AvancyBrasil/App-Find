@@ -1,206 +1,136 @@
-import { StyleSheet } from "react-native";
-import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: wp('2.5%'),
-    paddingTop: hp('2.5%'),
-    backgroundColor: '#050521', // Azul de fundo
-  },
-  logo: {
-    width: wp('31.25%'),
-    height: hp('9.38%'),
-    resizeMode: 'contain',
-  },
-  iconButton: {
-    marginLeft: wp('50%'),
-  },
-  inputArea: {
-    flexDirection:'row',
-    width:'100%',
-    backgroundColor:'2A2A2A',
-    height: 60,
-    alignItems:'center',
-    borderRadius: 5,
-  },
-
-  //começo do perfil
   background: {
-    backgroundColor: '#050521',
     flex: 1,
+    backgroundColor: '#ffffff', // Cor de fundo branca
+    padding: 20,
   },
   containerPerfil: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    marginVertical: hp('2.5%'),
   },
   titleText: {
-    fontSize: hp('3%'),
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    marginBottom: hp('1%'),
+    fontSize: 24,
+    color: '#000', // Cor do texto para preto
+    marginBottom: 20,
+  },
+  headerContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+    marginTop: 50,
   },
   foto: {
-    width: wp('30%'),
-    height: hp('15%'),
-    borderRadius: wp('15%'),
-    marginBottom: hp('1%'),
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 2,
+    borderColor: '#000', // Cor da borda da imagem
+    marginBottom: 10,
+  },
+  textContainer: {
+    alignItems: 'center',
   },
   nameText: {
-    fontSize: hp('2.5%'),
-    color: '#FF8500',
-    fontWeight: 'bold',
-    marginBottom: hp('0.5%'),
-  },
-  bioText: {
-    fontSize: hp('2%'),
-    color: '#A9A9A9',
-  },
-
-logoutContainer: {
-    alignItems: 'center',
-    marginRight: hp('3%'),
-    marginTop: hp('0.5'),
-  },
-  logoutButton: {
-    backgroundColor: '#FF5800',
-    paddingVertical: hp('1%'),
-    paddingHorizontal: wp('5%'),
-    borderRadius: 8,
-  },
-  logoutText: {
-    color: '#FFFFFF',
-    fontSize: wp('2%'),
+    fontSize: 20,
+    color: '#000', // Cor do nome para preto
     fontWeight: 'bold',
   },
-
-  // Informação Pessoal e Conta
   containerInfo: {
-    marginVertical: hp('2.5%'),
-    paddingHorizontal: wp('5%'),
+    backgroundColor: '#f0f0f0', // Fundo da seção de informações
+    borderRadius: 10,
+    padding: 15,
   },
   infoPessoal: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: hp('1.25%'),
+    alignItems: 'center',
+    marginBottom: 10,
   },
   textInfoCont: {
-    fontSize: hp('2.5%'),
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-  textInfoCont2: {
-    fontSize: hp('2.5%'),
-    color: '#D9D9D9',
-    fontWeight: 'bold',
-  },
-  textInfoCont3: {
-    fontSize: hp('2.5%'),
-    color: '#FF8500',
+    fontSize: 18,
+    color: '#000', // Cor do texto para preto
     fontWeight: 'bold',
   },
   containerCard: {
-    backgroundColor: '#1E1E1E',
-    borderRadius: wp('2%'),
-    padding: wp('3%'),
+    marginVertical: 10,
   },
   cardInfo: {
-    marginBottom: hp('1%'),
+    marginBottom: 10,
+  },
+  textInfo: {
+    color: '#000', // Cor do texto para preto
+    fontSize: 16,
+  },
+  textInfo2: {
+    color: '#666', // Cor do texto secundário para cinza
+    fontSize: 16,
+  },
+  textInput: {
+    backgroundColor: '#ffffff', // Cor de fundo do input
+    borderRadius: 5,
+    padding: 10,
+    fontSize: 16,
+    marginTop: 5,
+    borderWidth: 1,
+    borderColor: '#ccc', // Cor da borda do input
+  },
+  containerBotoes: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: 20,
+  },
+  cancelButton: {
+    backgroundColor: '#666', // Preto um pouco mais claro
+    borderRadius: 5,
+    padding: 10,
+    flex: 1,
+    marginRight: 5,
+    alignItems: 'center',
+  },
+  cancelText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  confirmButton: {
+    backgroundColor: '#FF5800', // Laranja
+    borderRadius: 5,
+    padding: 10,
+    flex: 1,
+    marginLeft: 5,
+    alignItems: 'center',
+  },
+  confirmText: {
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  textExcluirConta: {
+    color: '#FF6B6B',
+    textAlign: 'center',
+    marginTop: 20,
+    fontWeight: 'bold',
   },
   firstCard: {
-    marginTop: hp('1%'),
+    marginTop: 0,
   },
   lastCard: {
     marginBottom: 0,
   },
-  textInfo: {
-    fontSize: hp('2%'),
-    color: '#FFFFFF',
-    marginBottom: hp('0.5%'),
+  editIcon: {
+    position: 'absolute',
+    bottom: 1, // Distância do fundo da imagem
+    right: -5, // Distância da direita da imagem
   },
-  textInfo2: {
-    fontSize: hp('2%'),
-    color: '#808080',
-    marginBottom: hp('0.5%'),
-  },
-  textInput: {
-    backgroundColor: '#2A2A2A',
-    color: '#ffffff',
-    borderRadius: wp('2%'),
-    paddingHorizontal: wp('2.5%'),
-    paddingVertical: hp('1.25%'),
-    fontSize: hp('2%'),
-    flex: 1,
-    width: '100%',
-  },
-
-  containerBotoes: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginVertical: hp('2.5%'),
-  },
-
-  textInfoCont2: {
-    fontSize: hp('2.5%'),
-    color: '#D9D9D9',
+  
+  textSairConta: {
+    color: '#FF5800',
+    fontSize: 16,
     fontWeight: 'bold',
+    marginTop: 20,
+    textAlign:'center',
   },
-
-  textInfoCont3: {
-    fontSize: hp('2.5%'),
-    color: '#FF8500',
-    fontWeight: 'bold',
-  },
-
-  containerBotoes: {
-    flexDirection: 'row',
-    justifyContent: 'space-between', // Alinhamento dos botões
-    marginVertical: hp('2.5%'),
-  },
-
-  confirmButton: {
-    backgroundColor: '#FF4500', // Verde
-    paddingVertical: hp('1.5%'),
-    paddingHorizontal: wp('4%'),
-    alignItems: 'center',
-    marginHorizontal: wp('2%'),
-  },
-
-  confirmText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: hp('2%'),
-  },
-
-  cancelButton: {
-    backgroundColor: '#1E1E1E', // Vermelho
-    paddingVertical: hp('1.5%'),
-    paddingHorizontal: wp('4%'),
-    alignItems: 'center',
-    marginHorizontal: wp('2%'),
-  },
-
-  cancelText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: hp('2%'),
-  },
-
-  deleteButton: {
-    backgroundColor: 'transparent', // Fundo transparente
-    paddingVertical: hp('1.5%'),
-    alignItems: 'center',
-    marginTop: hp('2%'), // Margem para separar dos botões anteriores
-  },
-
-  deleteText: {
-    fontSize: hp('2%'),
-    color: '#FF4500', // Vermelho discreto
-    fontWeight: '500', // Peso médio
-    textDecorationLine: 'underline', // Sublinhado para indicar ação
-  },
+  
 });
 
 export default styles;
