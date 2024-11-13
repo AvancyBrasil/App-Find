@@ -14,7 +14,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const authResponse = await api.post('/login/usuarios', { email, senha, });
+      const authResponse = await api.post('/login/usuarios', { email, senha });
 
       if (authResponse.status === 200) {
         const { token } = authResponse.data;

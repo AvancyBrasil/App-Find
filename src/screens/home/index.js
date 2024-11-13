@@ -48,6 +48,9 @@ export default function Home() {
   const [showDetails, setShowDetails] = useState(false); 
   const [melhoresLojistas, setMelhoresLojistas] = useState([]);
   const navigation = useNavigation();
+
+  
+  
   
   useEffect(() => {
     const obterLocalizacao = async () => {
@@ -104,7 +107,7 @@ export default function Home() {
     <TouchableOpacity 
       style={[styles.lojaProximaContainer, { marginRight: 10 }]} 
       onPress={() => {
-        console.log('Navegando para Lojista com ID:', item.id); // Log de depuração
+        console.log('Navegando para Lojista com ID:', item.id); 
         navigation.navigate('Lojista', { lojistaId: item.id });
       }} 
     >
@@ -123,7 +126,7 @@ export default function Home() {
       const response = await api.get(`http://192.168.15.10:4000/lojistas-melhor-avaliados?latitude=${latitude}&longitude=${longitude}`);
       console.log(response.data); // Log para verificar a resposta da API
   
-      // Verifique se a resposta é um array de lojistas
+      
       if (Array.isArray(response.data.lojistas)) {
         setMelhoresLojistas(response.data.lojistas);
       } else {
@@ -139,7 +142,7 @@ export default function Home() {
     <TouchableOpacity 
       style={[styles.lojaAvaliacaoContainer, { marginRight: 10 }]} 
       onPress={() => {
-        console.log('Navegando para Lojista com ID:', item.id);
+        console.log('Navegando para Lojista com ID:', item.id,);
         navigation.navigate('Lojista', { lojistaId: item.id });
       }}
     >
