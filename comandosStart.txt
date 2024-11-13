@@ -14,6 +14,9 @@ npm install --save react-native-permissions
 npm install --save react-native-permissions
 expo install expo-location
 npm install @react-native-picker/picker
+npm install react-native-maps
+npm install react-native-maps-directions
+npm install react-native-webview
 npx expo start
 
 
