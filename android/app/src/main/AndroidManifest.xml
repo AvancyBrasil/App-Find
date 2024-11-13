@@ -8,7 +8,8 @@
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
   <!-- END OPTIONAL PERMISSIONS -->
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <queries>
     <!-- Support checking for http(s) links via the Linking API -->
     <intent>
@@ -26,5 +27,8 @@
       </intent-filter>
     </activity>
     <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" android:exported="false"/>
+    <meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="AIzaSyBQhcE8wYt1ukHH6sZOUC0W3dwrad7JLhc" />
   </application>
 </manifest>
